@@ -1,0 +1,37 @@
+[
+  {
+    "display_name": "Dashboard",
+    "route": "/admin/dashboard",
+    "icon": "bx bx-home-alt"
+  },
+  {
+    "display_name": "History Trading",
+    "route": "/admin/history-trading",
+    "icon": "bx bx-time"
+  },
+  {
+    "display_name": "Profit Trading",
+    "route": "/admin/profit-trading",
+    "icon": "bx bx-receipt"
+  },
+  {
+    "display_name": "WD Profit Trader",
+    "route": "/admin/withdraw-profit-trader",
+    "icon": "bx bx-credit-card-front"
+  },
+  {
+    "display_name": "Jadwal Shift",
+    "route": "/admin/jadwal-shift",
+    "icon": "bx bx-calendar"
+  },
+  {
+    "display_name": "Sop Trader",
+    "route": "/admin/sop-trader",
+    "icon": "bx bx-bell"
+  },
+  {
+    "display_name": "News",
+    "route": "/admin/news",
+    "icon": "bx bxs-megaphone"
+  }
+]

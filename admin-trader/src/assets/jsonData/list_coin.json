@@ -1,0 +1,66 @@
+[
+  {
+    "id": 1,
+    "coin_title": "BTC",
+    "coin_subtitle": "USDT",
+    "coin_price": "3883.38",
+    "coin_chg": "-10.77%",
+    "coin_detail": "Bitcoin"
+  },
+  {
+    "id": 2,
+    "coin_title": "ETH",
+    "coin_subtitle": "USDT",
+    "coin_price": "2910.11",
+    "coin_chg": "-0.77%",
+    "coin_detail": "Ethereum"
+  },
+  {
+    "id": 3,
+    "coin_title": "LIT",
+    "coin_subtitle": "USDT",
+    "coin_price": "1.276",
+    "coin_chg": "-1.77%",
+    "coin_detail": "Litentry"
+  },
+  {
+    "id": 4,
+    "coin_title": "BNB",
+    "coin_subtitle": "USDT",
+    "coin_price": "403.304",
+    "coin_chg": "-2.22%",
+    "coin_detail": "BNB"
+  },
+  {
+    "id": 5,
+    "coin_title": "USDC",
+    "coin_subtitle": "USDT",
+    "coin_price": "1.38",
+    "coin_chg": "-0.11%",
+    "coin_detail": "USD Coin"
+  },
+  {
+    "id": 6,
+    "coin_title": "XRP",
+    "coin_subtitle": "USDT",
+    "coin_price": "0.65432",
+    "coin_chg": "-1.23%",
+    "coin_detail": "Ripple"
+  },
+  {
+    "id": 7,
+    "coin_title": "ADA",
+    "coin_subtitle": "USDT",
+    "coin_price": "1.2345",
+    "coin_chg": "-0.77%",
+    "coin_detail": "Cardano"
+  },
+  {
+    "id": 8,
+    "coin_title": "LUNA",
+    "coin_subtitle": "USDT",
+    "coin_price": "0.345",
+    "coin_chg": "-10.77%",
+    "coin_detail": "Terra"
+  }
+]
