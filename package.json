@@ -1,0 +1,19 @@
+{
+  "name": "bidbox-admin-trader",
+  "version": "1.0.0",
+  "description": "Project React JS Bidbox Admin Trader Update",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Maha-tir/bidbox-admin-trader.git"
+  },
+  "author": "Estedio Team",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Maha-tir/bidbox-admin-trader/issues"
+  },
+  "homepage": "https://github.com/Maha-tir/bidbox-admin-trader#readme"
+}
