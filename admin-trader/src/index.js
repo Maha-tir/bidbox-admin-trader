@@ -6,10 +6,18 @@ import "./style/bootstrap.min.css";
 import "./style/style.css";
 import "./assets/plugins/boxicons-2.0.7/css/boxicons.min.css";
 
+import { Provider } from "react-redux";
+import { store, persistor } from "./redux/store";
+import { PersistGate } from "redux-persist/integration/react";
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <PersistGate persistor={persistor}>
+        <App />
+      </PersistGate>
+    </Provider>
   </React.StrictMode>
 );
 

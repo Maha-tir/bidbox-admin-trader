@@ -1,17 +1,26 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
-// import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { loginInitiate } from "../../redux/actions/action";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const history = useHistory();
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
+
+  const { user, error } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (user) {
+      history.push("/admin/dashboard");
+    }
+  }, [user]);
 
   const LOGINSUBMIT = async (e) => {
     e.preventDefault();
-    // dispatch(loginInitiate(email, password));
+    dispatch(loginInitiate(email, password, history));
   };
   return (
     <div className="auth-box">
