@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Route, Link, useHistory } from "react-router-dom";
 import { Sidebar } from "../Navbar/Sidebar";
 import { useDispatch, useSelector } from "react-redux";
-import { logoutInitiate } from "../../redux/actions/action";
+import { logoutInitiate } from "../../redux/actions/authActions";
 
 export const AuthLayout = (props) => {
   return (
@@ -39,6 +39,14 @@ export const DashboardLayout = (props) => {
             >
               Toggle
             </button>
+            <div className="breadcrumb pb-0 mb-0 flex-nowrap">
+              <li className="breadcrumb-item time-shift">
+                <span id="time">Time Shift = 04:32 Minutes</span>
+              </li>
+              <li className="breadcrumb-item next-shift">
+                <span id="nextshift">Next Shift = ...</span>
+              </li>
+            </div>
             <button className="btn-control logout-button" onClick={logout}>
               Logout
             </button>

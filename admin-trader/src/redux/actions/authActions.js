@@ -16,7 +16,8 @@ const loginFail = (error) => ({
 export const logoutInitiate = () => ({
   type: types.LOGOUT_USER,
 });
-export const loginInitiate = (email, password, history) => {
+
+export const loginAction = (email, password, history, setErrorMessage) => {
   return function (dispatch) {
     dispatch(loginStart());
     var qs = require("qs");
@@ -35,8 +36,7 @@ export const loginInitiate = (email, password, history) => {
 
     axios(config)
       .then(function (response) {
-        console.log(response);
-        dispatch(loginSuccess(response.data.access_token));
+        dispatch(loginSuccess(response.data));
         localStorage.setItem(
           "login",
           JSON.stringify({
@@ -51,6 +51,7 @@ export const loginInitiate = (email, password, history) => {
       })
       .catch(function (error) {
         dispatch(loginFail(error.response.data.message));
+        setErrorMessage(error.response.data.message);
       });
   };
 };

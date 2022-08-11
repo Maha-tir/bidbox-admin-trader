@@ -1,10 +1,53 @@
 import React from "react";
+import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import listCoin from "../../assets/jsonData/list_coin.json";
+import Modal from "../../components/Modal/Modal";
 
 const Dashboard = (props) => {
   const goToForm = (id) => {
     props.history.push(`/admin/coin-form/${id}`);
+  };
+  const TABLETRADINGDATA = [
+    {
+      id: 1,
+      tanggal: "01/01/2022",
+      waktu: "11:02 WIB",
+      mode: "Professional",
+      pair: "BTC/USDT",
+      exchange: "Bincance",
+      harga_beli: "1.000",
+      harga_jual: "1.015",
+      profit: "1,2%",
+    },
+  ];
+
+  const [dataTable, setDataTable] = useState(TABLETRADINGDATA);
+  const [modal, setModal] = useState({
+    message: "",
+    isLoading: false,
+  });
+  const idCoinsRef = useRef();
+
+  const handleModal = (message, isLoading) => {
+    setModal({
+      message,
+      isLoading,
+    });
+  };
+  const handleDelete = (id) => {
+    handleModal("Enter the reason you did this data cut loss", true);
+    console.log(id);
+    idCoinsRef.current = id;
+  };
+
+  const CUTTLOSS = (choose) => {
+    if (choose) {
+      setDataTable(dataTable.filter((data) => data.id !== idCoinsRef.current));
+      handleModal("", false);
+    } else {
+      handleModal("", false);
+    }
   };
 
   return (
@@ -58,6 +101,7 @@ const Dashboard = (props) => {
                       <p className="m-0 coin-sm">Chg: -10.77%</p>
                     </div>
                   </div>
+                  <button className="btn-exchange">Exchange</button>
                 </div>
                 <div className="col-lg-4">
                   <div className="mb-1">
@@ -169,7 +213,7 @@ const Dashboard = (props) => {
             }}
           >
             <div className="card-body">
-              <table className="table table-responsive">
+              <table className="table table-responsive table-current">
                 <thead>
                   <tr className="no-border on-custom">
                     <th>Waktu</th>
@@ -182,26 +226,50 @@ const Dashboard = (props) => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>Waktu</td>
-                    <td>Mode</td>
-                    <td>Pair</td>
-                    <td>Exchange</td>
-                    <td>Harga Beli</td>
-                    <td>Harga Jual</td>
-                    <td>Profit</td>
-                  </tr>
-                  <tr>
-                    <td>Waktu</td>
-                    <td>Mode</td>
-                    <td>Pair</td>
-                    <td>Exchange</td>
-                    <td>Harga Beli</td>
-                    <td>Harga Jual</td>
-                    <td>Profit</td>
-                  </tr>
+                  {dataTable.map((data, index) => (
+                    <tr key={index}>
+                      <td>
+                        <div className="t-w">
+                          <span id="tanggal">{data.tanggal}</span>
+                          <span id="waktu">{data.waktu}</span>
+                        </div>
+                      </td>
+                      <td>{data.mode}</td>
+                      <td>{data.pair}</td>
+                      <td>{data.exchange}</td>
+                      <td>{data.harga_beli}</td>
+                      <td>{data.harga_jual}</td>
+                      <td>{data.profit}</td>
+                      <td>
+                        <div className="t-w" style={{ rowGap: "5px" }}>
+                          <button
+                            className="btn-on-tb"
+                            onClick={() => handleDelete(data.id)}
+                          >
+                            Cutt Loss
+                          </button>
+                          <button className="btn-on-tb">Cancel Buy</button>
+                        </div>
+                      </td>
+                      <td>
+                        <span className="profit-all">+ {data.profit}</span>
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
+              {modal.isLoading && (
+                <Modal
+                  message={modal.message}
+                  classMessage="text-message"
+                  buttonAction="Cut Loss"
+                  icon="fa-solid fa-exclamation"
+                  typeModal="warning"
+                  typeButton="delete"
+                  inputText
+                  onModal={CUTTLOSS}
+                />
+              )}
             </div>
           </div>
         </div>

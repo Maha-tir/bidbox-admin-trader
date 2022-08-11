@@ -2,11 +2,12 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { loginInitiate } from "../../redux/actions/action";
+import { loginAction } from "../../redux/actions/authActions";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -20,7 +21,7 @@ const Login = () => {
 
   const LOGINSUBMIT = async (e) => {
     e.preventDefault();
-    dispatch(loginInitiate(email, password, history));
+    dispatch(loginAction(email, password, history, setErrorMessage));
   };
   return (
     <div className="auth-box">
@@ -28,6 +29,7 @@ const Login = () => {
         <h1 className="auth-title">Admin Trader</h1>
         <p className="auth-subtitle">Login to your account</p>
       </div>
+      {errorMessage ? errorMessage : null}
       <form onSubmit={LOGINSUBMIT} className="form-validation">
         <div className="input-field">
           <label htmlFor="email">Email address</label>
@@ -70,12 +72,14 @@ const Login = () => {
         <button type="submit" className="btn btn-first btn-block w-100%">
           Login
         </button>
-        <p className="text-secondary text-small text-center mb-5">
-          Don't have any account?{" "}
-          <Link to="/auth/register" className="text-link">
-            Register
-          </Link>
-        </p>
+        <div className="auth-footer">
+          <p className="text-secondary text-small text-center mb-5">
+            Don't have any account?{" "}
+            <Link to="/auth/register" className="text-link">
+              Register
+            </Link>
+          </p>
+        </div>
       </form>
     </div>
   );
