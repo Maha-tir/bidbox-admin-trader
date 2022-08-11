@@ -27,9 +27,10 @@ export const loginAction = (email, password, history, setErrorMessage) => {
     });
     var config = {
       method: "post",
-      url: "http://localhost:5000/auth/login",
+      url: "https://api.bidbox.community/api/v1/auth/admin/login",
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
       },
       data: data,
     };
@@ -41,12 +42,12 @@ export const loginAction = (email, password, history, setErrorMessage) => {
           "login",
           JSON.stringify({
             userLogin: true,
-            access_token: response.data.access_token,
+            access_token: response.data,
           })
         );
         axios.defaults.headers.common[
           "Authorization"
-        ] = `Bearer ${response.data.access_token}`;
+        ] = `Bearer ${response.data}`;
         history.push("/admin/dashboard");
       })
       .catch(function (error) {
