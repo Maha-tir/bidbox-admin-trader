@@ -16,7 +16,6 @@ function Modal({
     if (inputCheck.value.length > 0) {
       onModal(true);
     } else {
-      // onModal(false);
       alert("Mohon untuk mengisi alasan terlebih dahulu");
     }
   };
