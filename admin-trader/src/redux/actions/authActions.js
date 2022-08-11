@@ -20,17 +20,20 @@ export const logoutInitiate = () => ({
 export const loginAction = (email, password, history, setErrorMessage) => {
   return function (dispatch) {
     dispatch(loginStart());
-    var qs = require("qs");
-    var data = qs.stringify({
-      email,
-      password,
+    caches.keys().then((names) => {
+      names.forEach((name) => {
+        caches.delete(name);
+      });
+    });
+    let data = JSON.stringify({
+      email: email,
+      password: password,
     });
     var config = {
       method: "post",
-      url: "https://api.bidbox.community/api/v1/auth/admin/login",
+      url: "https://api.bidbox.community/api/v1/auth/trader/login",
       headers: {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
       },
       data: data,
     };
@@ -38,16 +41,18 @@ export const loginAction = (email, password, history, setErrorMessage) => {
     axios(config)
       .then(function (response) {
         dispatch(loginSuccess(response.data));
+        console.log(response);
         localStorage.setItem(
           "login",
           JSON.stringify({
-            userLogin: true,
-            access_token: response.data,
+            user_login: true,
+            jwt_token: response.data.jwt_token,
+            refresh_token: response.data.refresh_token,
           })
         );
         axios.defaults.headers.common[
           "Authorization"
-        ] = `Bearer ${response.data}`;
+        ] = `Bearer ${response.data.jwt_token}`;
         history.push("/admin/dashboard");
       })
       .catch(function (error) {
