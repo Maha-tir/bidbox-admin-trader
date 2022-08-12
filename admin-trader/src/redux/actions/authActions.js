@@ -47,12 +47,12 @@ export const loginAction = (email, password, history, setErrorMessage) => {
           JSON.stringify({
             user_login: true,
             jwt_token: response.data.jwt_token,
-            refresh_token: response.data.refresh_token,
+            refresh_token: response.data.jwt_refresh_token,
           })
         );
         axios.defaults.headers.common[
           "Authorization"
-        ] = `Bearer ${response.data.jwt_token}`;
+        ] = `Bearer ${response.data.jwt_refresh_token}`;
         history.push("/admin/dashboard");
       })
       .catch(function (error) {

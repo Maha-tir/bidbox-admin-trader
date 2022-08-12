@@ -1,14 +1,40 @@
 import React from "react";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import axios from "axios";
 
 const CoinForm = (props) => {
-  //   const params = useParams();
+  const create_signal = () => {
+    var data = JSON.stringify({
+      base_asset: "TRX",
+      quote_asset: "USDT",
+      buy_price: 0.06449,
+      sell_price: 0.065,
+      exchange_id: 1,
+    });
+
+    var config = {
+      method: "post",
+      url: "https://api.bidbox.community/api/v1/signal-trader",
+      headers: {
+        Authorization: axios.defaults.headers.common["Authorization"],
+        "Content-Type": "application/json",
+      },
+      data: data,
+    };
+
+    axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
   useEffect(() => {
-    console.log(props.match.params.id);
+    // console.log(props.match);
+    // create_signal();
   }, []);
 
-  //   console.log(props);
   return (
     <div className="col-lg-6">
       <div className="mb-2 row">

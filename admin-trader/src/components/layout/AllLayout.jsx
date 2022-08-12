@@ -5,6 +5,7 @@ import { Sidebar } from "../Navbar/Sidebar";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutAction } from "../../redux/actions/authActions";
 import axios from "axios";
+import { useEffect } from "react";
 export const AuthLayout = (props) => {
   return (
     <div className="auth-middle">
@@ -19,17 +20,25 @@ export const DashboardLayout = (props) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const get_user = () => {};
+  const get_user = () => {
+    var getToken = JSON.parse(localStorage.getItem("login"));
+    const header = (axios.defaults.headers.common[
+      "Authorization"
+    ] = `Bearer ${getToken.refresh_token}`);
+    console.log(header);
+  };
 
   const backToAuth = () => {
     history.push("/auth/login");
   };
   const logout = () => {
     dispatch(logoutAction(history));
-    // localStorage.removeItem("login");
-    // history.push("/auth/login");
-    // console.clear();
   };
+
+  useEffect(() => {
+    get_user();
+  }, []);
+
   return (
     <div className="dashboard-layout">
       {user ? (
