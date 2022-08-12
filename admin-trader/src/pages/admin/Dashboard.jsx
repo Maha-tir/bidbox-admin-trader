@@ -106,9 +106,7 @@ const Dashboard = (props) => {
                     {/* <p className="m-0 coin-sm">Price: {coin.coin_price}</p>
                     <p className="m-0 coin-sm">Chg: {coin.coin_chg}</p> */}
                   </div>
-                  <h1 className="m-0 coin-title ms-auto">
-                    {coin.currency_id == "ETH" ? "Ethereum" : ""}
-                  </h1>
+                  <h1 className="m-0 coin-title ms-auto">{coin.currency_id}</h1>
                 </div>
               </button>
             ))}
