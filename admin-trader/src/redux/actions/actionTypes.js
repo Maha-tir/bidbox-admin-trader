@@ -5,3 +5,7 @@ export const LOGOUT_USER = "LOGOUT_USER";
 export const REGISTER_START = "REGISTER_START";
 export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
 export const REGISTER_FAIL = "REGISTER_FAIL";
+
+export const SIGNAL_START = "SIGNAL_START";
+export const SIGNAL_SUCCESS = "SIGNAL_SUCCESS";
+export const SIGNAL_FAIL = "SIGNAL_FAIL";

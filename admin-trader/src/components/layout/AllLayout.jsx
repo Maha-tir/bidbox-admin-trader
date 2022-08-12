@@ -24,8 +24,7 @@ export const DashboardLayout = (props) => {
     var getToken = JSON.parse(localStorage.getItem("login"));
     const header = (axios.defaults.headers.common[
       "Authorization"
-    ] = `Bearer ${getToken.refresh_token}`);
-    console.log(header);
+    ] = `Bearer ${getToken.jwt_token}`);
   };
 
   const backToAuth = () => {
