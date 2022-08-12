@@ -31,7 +31,7 @@ export const loginAction = (email, password, history, setErrorMessage) => {
     });
     var config = {
       method: "post",
-      url: "https://api.bidbox.community/api/v1/auth/trader/login",
+      url: "https://api.bidbox.community/api/v1/auth/admin/login",
       headers: {
         "Content-Type": "application/json",
       },
@@ -59,5 +59,13 @@ export const loginAction = (email, password, history, setErrorMessage) => {
         dispatch(loginFail(error.response.data.message));
         setErrorMessage(error.response.data.message);
       });
+  };
+};
+
+export const logoutAction = (history) => {
+  return function (dispatch) {
+    dispatch(logoutInitiate());
+    localStorage.removeItem("login");
+    history.push("/auth/login");
   };
 };

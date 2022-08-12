@@ -1,5 +1,5 @@
 import * as types from "../actions/actionTypes";
-
+import axios from "axios";
 const initialState = {
   user: null,
   loading: false,
@@ -30,6 +30,7 @@ const authReducer = (state = initialState, action) => {
         ...state,
         user: null,
       };
+
     default:
       return state;
   }

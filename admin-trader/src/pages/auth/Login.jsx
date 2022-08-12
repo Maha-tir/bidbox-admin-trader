@@ -8,45 +8,16 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
   const history = useHistory();
   const dispatch = useDispatch();
 
   const { user, error } = useSelector((state) => state.auth);
 
-  const login_admin_trader = () => {
-    let data = JSON.stringify({
-      email: "irhammusthofa@gmail.com",
-      password: "123456",
-    });
-    var config = {
-      method: "post",
-      url: "https://api.bidbox.community/api/v1/auth/trader/login",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: data,
-    };
-
-    axios(config)
-      .then(function (response) {
-        console.log(response);
-        // save_session(response.data.jwt_token,response.data.jwt_refresh_token)
-        // dispatch({type:'loaded'})
-      })
-      .catch(function (error) {
-        console.log(error);
-        // const response = error.response
-        // console.log(error);
-        dispatch({ type: "loaded" });
-        // toast(response.data.message)
-      });
-  };
-
   useEffect(() => {
     if (user) {
       history.push("/admin/dashboard");
     }
-    // login_admin_trader();
   }, [user]);
 
   const LOGINSUBMIT = async (e) => {

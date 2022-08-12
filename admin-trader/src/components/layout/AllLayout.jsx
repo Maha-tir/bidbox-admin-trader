@@ -3,8 +3,8 @@ import { useState } from "react";
 import { Route, Link, useHistory } from "react-router-dom";
 import { Sidebar } from "../Navbar/Sidebar";
 import { useDispatch, useSelector } from "react-redux";
-import { logoutInitiate } from "../../redux/actions/authActions";
-
+import { logoutAction } from "../../redux/actions/authActions";
+import axios from "axios";
 export const AuthLayout = (props) => {
   return (
     <div className="auth-middle">
@@ -19,13 +19,15 @@ export const DashboardLayout = (props) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const get_user = () => {};
+
   const backToAuth = () => {
     history.push("/auth/login");
   };
   const logout = () => {
-    dispatch(logoutInitiate());
-    localStorage.removeItem("login");
-    history.push("/auth/login");
+    dispatch(logoutAction(history));
+    // localStorage.removeItem("login");
+    // history.push("/auth/login");
     // console.clear();
   };
   return (
