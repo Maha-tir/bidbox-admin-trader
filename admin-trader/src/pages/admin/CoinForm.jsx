@@ -7,14 +7,15 @@ import { signalAdd } from "../../redux/actions/signalAction";
 import axios from "axios";
 
 const CoinForm = (props) => {
-  const [baseAsset, setBaseAsset] = useState("BTC");
+  const [baseAsset, setBaseAsset] = useState("");
   const [quoteAsset, setQuoteAsset] = useState("");
   const [buyPrice, setBuyPrice] = useState("");
   const [sellPrice, setSellPrice] = useState("");
   const history = useHistory();
   const dispatch = useDispatch();
   useEffect(() => {
-    // console.log(props.match);
+    console.log(props.match);
+    setBaseAsset(props.match.params.currency_id);
   }, []);
 
   const POSTSIGNALTRADER = (e) => {
@@ -35,6 +36,7 @@ const CoinForm = (props) => {
               placeholder="Base Asset"
               id="base-asset"
               value={baseAsset}
+              readOnly
               required
             />
           </div>
@@ -84,7 +86,14 @@ const CoinForm = (props) => {
             />
           </div>
         </div>
-        <div className="d-flex align-items-center justify-content-end">
+        <div className="d-flex align-items-center justify-content-between">
+          <button
+            type="button"
+            onClick={() => window.history.back()}
+            className="btn btn-dark"
+          >
+            Back
+          </button>
           <button className="btn btn-primary">Submit</button>
         </div>
       </form>

@@ -43,7 +43,7 @@ const adminRoutes = [
     layout: DashboardLayout,
   },
   {
-    path: "/admin/coin-form/:id",
+    path: "/admin/coin-form/:currency_id",
     component: CoinForm,
     layout: DashboardLayout,
   },

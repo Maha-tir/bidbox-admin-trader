@@ -1,13 +1,16 @@
+import axios from "axios";
 import React from "react";
+import { useEffect } from "react";
 import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import listCoin from "../../assets/jsonData/list_coin.json";
 import Modal from "../../components/Modal/Modal";
 
 const Dashboard = (props) => {
-  const goToForm = (id) => {
-    props.history.push(`/admin/coin-form/${id}`);
+  const goToForm = (currency_id) => {
+    props.history.push(`/admin/coin-form/${currency_id}`);
   };
+
   const TABLETRADINGDATA = [
     {
       id: 1,
@@ -23,6 +26,7 @@ const Dashboard = (props) => {
   ];
 
   const [dataTable, setDataTable] = useState(TABLETRADINGDATA);
+  const [pairItems, setPairItems] = useState([]);
   const [modal, setModal] = useState({
     message: "",
     isLoading: false,
@@ -50,28 +54,61 @@ const Dashboard = (props) => {
     }
   };
 
+  const get_master_pair = () => {
+    var data = JSON.stringify({
+      filter: {},
+      search: "",
+      sort: [["currency_id", "ASC"]],
+    });
+
+    var config = {
+      method: "post",
+      url: "https://api.bidbox.community/api/v1/master/pair/paginate",
+      headers: {
+        Authorization: axios.defaults.headers.common["Authorization"],
+        "Content-Type": "application/json",
+      },
+      data: data,
+    };
+
+    axios(config)
+      .then(function (response) {
+        console.log(response.data);
+        setPairItems(response.data.items);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    get_master_pair();
+  }, []);
+
   return (
     <div>
       <div className="row">
         <div className="col-lg-3 col-sm-4">
           <ul className="list-group">
             <div className="list-group-header">List Coin</div>
-            {listCoin.map((coin, index) => (
+            {pairItems.map((coin, index) => (
               <button
                 key={index}
-                onClick={() => goToForm(coin.id)}
+                onClick={() => goToForm(coin.currency_id)}
                 className="list-group-item"
               >
                 <div className="coin-group coin-start">
                   <i className="bx bx-star"></i>
                   <div className="coin-info">
                     <h1 className="m-0 coin-title">
-                      {coin.coin_title} / <small>{coin.coin_subtitle}</small>
+                      {coin.currency_id} / <small>{coin.quote_id}</small>
                     </h1>
-                    <p className="m-0 coin-sm">Price: {coin.coin_price}</p>
-                    <p className="m-0 coin-sm">Chg: {coin.coin_chg}</p>
+                    {/* <p className="m-0 coin-sm">Price: {coin.coin_price}</p>
+                    <p className="m-0 coin-sm">Chg: {coin.coin_chg}</p> */}
                   </div>
-                  <h1 className="m-0 coin-title ms-auto">{coin.coin_detail}</h1>
+                  <h1 className="m-0 coin-title ms-auto">
+                    {coin.currency_id == "ETH" ? "Ethereum" : ""}
+                  </h1>
                 </div>
               </button>
             ))}
