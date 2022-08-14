@@ -177,6 +177,7 @@ const Dashboard = (props) => {
             });
     };
     useEffect(() => {
+      console.log(process.env.REACT_APP_TOKEN_CENTRIFUGE);
         centrifuge.current = new Centrifuge(process.env.REACT_APP_WS_URL, {
             token: process.env.REACT_APP_TOKEN_CENTRIFUGE,
         });
