@@ -9,3 +9,8 @@ export const REGISTER_FAIL = "REGISTER_FAIL";
 export const SIGNAL_START = "SIGNAL_START";
 export const SIGNAL_SUCCESS = "SIGNAL_SUCCESS";
 export const SIGNAL_FAIL = "SIGNAL_FAIL";
+
+export const PAIR_START = "PAIR_START";
+export const PAIR_SUCCESS = "PAIR_SUCCESS";
+export const PAIR_FAIL = "PAIR_FAIL";
+export const PAIR_UPDATE = "PAIR_UPDATE";

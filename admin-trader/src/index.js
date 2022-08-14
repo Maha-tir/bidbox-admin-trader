@@ -9,12 +9,14 @@ import "./assets/plugins/boxicons-2.0.7/css/boxicons.min.css";
 import { Provider } from "react-redux";
 import { store, persistor } from "./redux/store";
 import { PersistGate } from "redux-persist/integration/react";
+import { Toaster } from 'react-hot-toast';
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
       <PersistGate persistor={persistor}>
+        <Toaster />
         <App />
       </PersistGate>
     </Provider>

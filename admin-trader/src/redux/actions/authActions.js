@@ -31,7 +31,7 @@ export const loginAction = (email, password, history, setErrorMessage) => {
     });
     var config = {
       method: "post",
-      url: "https://api.bidbox.community/api/v1/auth/admin/login",
+      url: "https://api.bidbox.community/api/v1/auth/trader/login",
       headers: {
         "Content-Type": "application/json",
       },
@@ -52,7 +52,7 @@ export const loginAction = (email, password, history, setErrorMessage) => {
         );
         axios.defaults.headers.common[
           "Authorization"
-        ] = `Bearer ${response.data.jwt_refresh_token}`;
+        ] = `Bearer ${response.data.jwt_token}`;
         history.push("/admin/dashboard");
       })
       .catch(function (error) {

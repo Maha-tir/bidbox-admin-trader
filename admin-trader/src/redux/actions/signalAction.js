@@ -14,7 +14,9 @@ const signalFail = (error) => ({
   type: types.SIGNAL_FAIL,
   payload: error,
 });
-
+export {
+  signalSuccess
+}
 export const signalAdd = (
   baseAsset,
   quoteAsset,
