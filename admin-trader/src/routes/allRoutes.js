@@ -9,6 +9,8 @@ import SOPTrader from "../pages/admin/SOPTrader";
 import WithdrawProfitTrading from "../pages/admin/WithdrawProfitTrading";
 import CoinForm from "../pages/admin/CoinForm";
 import MasterPair from "../pages/admin/MasterPair";
+import MasterPairForm from "../pages/admin/MasterPairFrom";
+import MasterTraderForm from "../pages/admin/MasterTraderForm";
 
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
@@ -57,6 +59,16 @@ const adminRoutes = [
   {
     path: "/admin/master-trader",
     component: MasterTrader,
+    layout: DashboardLayout,
+  },
+  {
+    path: "/admin/master-pair-form",
+    component: MasterPairForm,
+    layout: DashboardLayout,
+  },
+  {
+    path: "/admin/master-trader-form",
+    component: MasterTraderForm,
     layout: DashboardLayout,
   },
 ];

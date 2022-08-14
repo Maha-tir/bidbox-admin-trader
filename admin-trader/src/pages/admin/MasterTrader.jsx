@@ -1,104 +1,89 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 const MasterTrader = () => {
   return (
-    <div className="col-lg-6">
-      <form id="form-list-coin">
-        <div className="mb-2 row">
-          <label htmlFor="quote-asset" className="col-sm-3 col-form-label">
-            Username
-          </label>
-          <div className="col-sm-9">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Username"
-              // onChange={(e) => setQuoteAsset(e.target.value)}
-              required
-            />
+    <div>
+      <div className="row">
+        <div className="col-lg-12">
+          <div className="d-flex justify-content-between align-items-center flex-wrap">
+            <Link
+              to="/admin/master-trader-form"
+              className="btn btn-dark d-flex align-items-center"
+            >
+              <i className="bx bx-plus me-1"></i> Add data
+            </Link>
+
+            <div className="m-0">
+              <input
+                type="search"
+                className="form-control form-control-first"
+                style={{ fontSize: "0.896rem" }}
+              />
+            </div>
           </div>
         </div>
-        <div className="mb-2 row">
-          <label htmlFor="buy-price" className="col-sm-3 col-form-label">
-            Full Name
-          </label>
-          <div className="col-sm-9">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Full Name"
-              // onChange={(e) => setBuyPrice(e.target.value)}
-              required
-            />
-          </div>
-        </div>
-        <div className="mb-2 row">
-          <label htmlFor="buy-price" className="col-sm-3 col-form-label">
-            No Phone
-          </label>
-          <div className="col-sm-9">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="No Phone"
-              // onChange={(e) => setBuyPrice(e.target.value)}
-              required
-            />
-          </div>
-        </div>
-        <div className="mb-2 row">
-          <label htmlFor="buy-price" className="col-sm-3 col-form-label">
-            Email Address
-          </label>
-          <div className="col-sm-9">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Email Address"
-              // onChange={(e) => setBuyPrice(e.target.value)}
-              required
-            />
-          </div>
-        </div>
-        <div className="mb-2 row">
-          <label htmlFor="buy-price" className="col-sm-3 col-form-label">
-            Password
-          </label>
-          <div className="col-sm-9">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Password"
-              // onChange={(e) => setBuyPrice(e.target.value)}
-              required
-            />
-          </div>
-        </div>
-        <div className="mb-2 row">
-          <label htmlFor="buy-price" className="col-sm-3 col-form-label">
-            USDT Address
-          </label>
-          <div className="col-sm-9">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="USDT Address"
-              // onChange={(e) => setBuyPrice(e.target.value)}
-              required
-            />
-          </div>
-        </div>
-        <div className="d-flex align-items-center justify-content-between">
-          <button
-            type="button"
-            onClick={() => window.history.back()}
-            className="btn btn-dark"
-          >
-            Back
-          </button>
-          <button className="btn btn-primary">Submit</button>
-        </div>
-      </form>
+      </div>
+      <table className="table">
+        <thead>
+          <tr>
+            <th scope="col">Username</th>
+            <th scope="col">Full Name</th>
+            <th scope="col">No Phone</th>
+            <th scope="col">Email</th>
+            <th scope="col">Password</th>
+            <th scope="col">USDT Address</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>jason</td>
+            <td>Jason</td>
+            <td>xxx-xxx-xxx</td>
+            <td>stephanus_jason@gmail.com</td>
+            <td>********</td>
+            <td>-</td>
+            <td>
+              <div className="d-flex align-items-center" style={{ gap: "5px" }}>
+                <button className="btn btn-sm btn-primary">Edit</button>
+                <button className="btn btn-sm btn-danger">Hapus</button>
+                <button className="btn btn-sm btn-warning">Lihat</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div className="d-flex justify-content-end">
+        <nav aria-label="Page navigation example">
+          <ul className="pagination">
+            <li className="page-item">
+              <a className="page-link" href="#">
+                Previous
+              </a>
+            </li>
+            <li className="page-item">
+              <a className="page-link" href="#">
+                1
+              </a>
+            </li>
+            <li className="page-item">
+              <a className="page-link" href="#">
+                2
+              </a>
+            </li>
+            <li className="page-item">
+              <a className="page-link" href="#">
+                3
+              </a>
+            </li>
+            <li className="page-item">
+              <a className="page-link" href="#">
+                Next
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
     </div>
   );
 };
