@@ -25,6 +25,19 @@ const signalReducer = (state = initialState, action) => {
         loading: false,
         data: null,
       };
+
+    case types.SIGNAL_UPDATE:
+      for (let index = 0; index < state.data.length; index++) {
+          const el = state.data[index];
+          if (el.id === action.payload.id){
+              state.data[index] = action.payload
+              break
+          }   
+      }
+      return {
+        loading: false,
+        data: state.data,
+      }
     default:
       return state;
   }

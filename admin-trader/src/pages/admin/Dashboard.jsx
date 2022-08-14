@@ -8,13 +8,14 @@ import { Centrifuge } from "centrifuge";
 import Modal from "../../components/Modal/Modal";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { pairSuccess, pairUpdate } from "../../redux/actions/pairAction";
-import { signalSuccess } from "../../redux/actions/signalAction";
+import { signalSuccess,signalUpdate } from "../../redux/actions/signalAction";
 import toast from 'react-hot-toast';
 const Dashboard = (props) => {
     const auth = useSelector((state) => state.auth);
     const signal = useSelector((state) => state.signal);
     const dispatch = useDispatch();
     const [pairAvailable, setPairAvailable] = useState(null);
+    const [signalAvailable,setSignalAvailable] = useState(null)
     let centrifuge = useRef(null);
     const goToForm = (currency_id) => {
         props.history.push(`/admin/coin-form/${currency_id}`);
@@ -66,7 +67,6 @@ const Dashboard = (props) => {
     };
     const handleDelete = (id) => {
         handleModal("Enter the reason you did this data cut loss", true);
-        console.log(id);
         idCoinsRef.current = id;
     };
 
@@ -171,13 +171,61 @@ const Dashboard = (props) => {
                         date.getSeconds();
                 });
                 dispatch(signalSuccess(data));
+                setSignalAvailable(true)
             })
             .catch(function (error) {
                 console.log(error);
             });
     };
+
     useEffect(() => {
-      console.log(process.env.REACT_APP_TOKEN_CENTRIFUGE);
+        centrifuge.current = new Centrifuge(process.env.REACT_APP_WS_URL, {
+            token: process.env.REACT_APP_TOKEN_CENTRIFUGE,
+        });
+
+        // Allocate Subscription to a channel.
+        centrifuge.sub = centrifuge.current.newSubscription(
+            "cfPriceChangeBinance"
+        );
+
+        // Trigger subscribe process.
+        centrifuge.sub.subscribe();
+
+        // Trigger actual connection establishement.
+        centrifuge.current.connect();
+        centrifuge.sub.on("subscribed", (ctx) => {
+            centrifuge.status = "subscribed";
+        });
+        centrifuge.sub.on("subscribing", (ctx) => {
+            centrifuge.status = "subscribing";
+        });
+        centrifuge.sub.on("unsubscribed", (ctx) => {
+            centrifuge.status = "unsubscribed";
+        });
+        centrifuge.sub.on("publication", function (ctx) {
+            const data = ctx.data;
+            signal.data.forEach(signal => {
+                data.forEach((el) => {
+                    const symbol = el.symbol;
+                    const signal_symbol = `${signal.base_asset}${signal.quote_asset}`
+                    if (signal_symbol === symbol) {
+                        if (el.price_change === undefined) el.price_change = 0;
+                        const modal = signal.buy_price 
+                        const jual = signal.sell_price 
+                        const laba = jual - modal
+                        const profit_persen = toFixedIfNecessary((laba/modal) * 100,8)
+                        signal.profit_percent = profit_persen
+                        signal.profit = laba
+                        signal.profit = toFixedIfNecessary(signal.profit,8)
+                        dispatch(
+                            signalUpdate(signal)
+                        );
+                    }
+                });
+            });
+        });
+    }, [signalAvailable]);
+    useEffect(() => {
         centrifuge.current = new Centrifuge(process.env.REACT_APP_WS_URL, {
             token: process.env.REACT_APP_TOKEN_CENTRIFUGE,
         });
@@ -314,6 +362,7 @@ const Dashboard = (props) => {
                                     });
                                     pairSelected.base_asset = coin.currency_id;
                                     pairSelected.quote_asset = coin.quote_id;
+                                    setPriceBuy(coin.price)
                                 }}
                                 className="list-group-item"
                             >
@@ -366,12 +415,17 @@ const Dashboard = (props) => {
                                         <i className="bx bx-star me-3"></i>
                                         <div className="coin-info">
                                             <h1 className="m-0 coin-title">
-                                                {pairSelectedAsset.base_asset} /{" "}
-                                                <small>
+                                                <div style={{display:"flex",flex:"50%"}}>
+                                                <input type="text" className="form-control-first form-control" style={{width:70,marginRight:5}} onChange={(e) => {setPairSelectedAsset({
+                                        base_asset: e.target.value,
+                                        quote_asset: pairSelectedAsset.quote_asset,
+                                    })}} value={pairSelectedAsset.base_asset} />/
+                                                <small style={{marginLeft:5}}>
                                                     {
                                                         pairSelectedAsset.quote_asset
                                                     }
                                                 </small>
+                                                </div>
                                             </h1>
                                             <p className="m-0 coin-sm">
                                                 Price: {pairSelected.price}
@@ -395,7 +449,7 @@ const Dashboard = (props) => {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="col-lg-3">
+                                <div className="col-lg-9">
                                     <div className="mb-1">
                                         <label
                                             htmlFor="buylimitprice"
@@ -405,6 +459,7 @@ const Dashboard = (props) => {
                                         </label>
                                         <input
                                             type="number"
+                                            value={priceBuy}
                                             onChange={e => setPriceBuy(e.target.value)}
                                             placeholder="Price Buy"
                                             className="form-control form-control-first"
@@ -446,7 +501,7 @@ const Dashboard = (props) => {
                                         </button>
                                     </div>
                                 </div>
-                                <div className="col-lg-6">
+                                <div className="col-lg-7" style={{marginTop:10}}>
                                     <div className="row">
                                         <div className="col-lg-5">
                                             <h1 className="text-uppercase coin-md m-0">
@@ -483,7 +538,7 @@ const Dashboard = (props) => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="col-lg-6">
+                                        <div className="col-lg-5">
                                             <h1 className="text-uppercase coin-md m-0">
                                                 Mode
                                             </h1>
@@ -564,7 +619,7 @@ const Dashboard = (props) => {
                                             <td>{data.exchange_name}</td>
                                             <td>{data.buy_price}</td>
                                             <td>{data.sell_price}</td>
-                                            <td>{data.total_profit}</td>
+                                            <td><span style={data.profit > 0 ? {color:"green"} : data.profit < 0 ? {color:"red"} : {}}>{data.profit}</span></td>
                                             <td>
                                                 <div
                                                     className="t-w"
@@ -593,8 +648,8 @@ const Dashboard = (props) => {
                                                 </div>
                                             </td>
                                             <td>
-                                                <span className="profit-all" style={data.total_profit < 0 ? {color:"red"}: {color:"green"}}>
-                                                    {data.total_profit}
+                                                <span className="profit-all" style={data.profit_percent < 0 ? {color:"red",fontSize:12}: data.profit_percent> 0 ? {color:"green",fontSize:12} : {color:"grey",fontSize:12}}>
+                                                    {data.profit_percent}%
                                                 </span>
                                             </td>
                                         </tr>

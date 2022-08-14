@@ -37,7 +37,7 @@ const Sidebar = (props) => {
           </div>
           Dashboard
         </Link>
-        <li
+        {/* <li
           className={
             dropdownMasterData
               ? "sidebar-list-dropdown show-dropdown"
@@ -80,7 +80,7 @@ const Sidebar = (props) => {
               Master Trader
             </Link>
           </div>
-        </li>
+        </li> */}
         <Link
           to="/admin/history-trading"
           className="sidebar-link"
