@@ -8,10 +8,12 @@ import ProfitTrading from "../pages/admin/ProfitTrading";
 import SOPTrader from "../pages/admin/SOPTrader";
 import WithdrawProfitTrading from "../pages/admin/WithdrawProfitTrading";
 import CoinForm from "../pages/admin/CoinForm";
+import MasterPair from "../pages/admin/MasterPair";
 
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
 import Forgot from "../pages/auth/Forgot";
+import MasterTrader from "../pages/admin/MasterTrader";
 
 const authRoutes = [
   { path: "/auth/login", component: Login, layout: AuthLayout },
@@ -45,6 +47,16 @@ const adminRoutes = [
   {
     path: "/admin/coin-form/:currency_id",
     component: CoinForm,
+    layout: DashboardLayout,
+  },
+  {
+    path: "/admin/master-pair",
+    component: MasterPair,
+    layout: DashboardLayout,
+  },
+  {
+    path: "/admin/master-trader",
+    component: MasterTrader,
     layout: DashboardLayout,
   },
 ];
