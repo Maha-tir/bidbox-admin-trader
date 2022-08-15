@@ -211,7 +211,7 @@ const Dashboard = (props) => {
                     if (signal_symbol === symbol) {
                         if (el.price_change === undefined) el.price_change = 0;
                         const modal = signal.buy_price 
-                        const jual = signal.sell_price 
+                        const jual = el.price 
                         const laba = jual - modal
                         const profit_persen = toFixedIfNecessary((laba/modal) * 100,8)
                         signal.profit_percent = profit_persen
