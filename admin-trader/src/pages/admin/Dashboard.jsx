@@ -220,6 +220,7 @@ const Dashboard = (props) => {
                         dispatch(
                             signalUpdate(signal)
                         );
+                        console.log(modal,jual,laba);
                     }
                 });
             });
@@ -538,7 +539,7 @@ const Dashboard = (props) => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="col-lg-5">
+                                        {/* <div className="col-lg-5">
                                             <h1 className="text-uppercase coin-md m-0">
                                                 Mode
                                             </h1>
@@ -572,7 +573,7 @@ const Dashboard = (props) => {
                                                     </label>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> */}
                                     </div>
                                 </div>
                             </div>
