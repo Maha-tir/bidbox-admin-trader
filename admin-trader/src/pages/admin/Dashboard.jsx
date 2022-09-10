@@ -11,9 +11,193 @@ import { pairSuccess, pairUpdate } from "../../redux/actions/pairAction";
 import { signalSuccess, signalUpdate } from "../../redux/actions/signalAction";
 import toast from "react-hot-toast";
 const Dashboard = (props) => {
+    const sort_coint = [
+        "BTC",
+        "ETH",
+        "BNB",
+        "MATIC",
+        "XRP",
+        "ADA",
+        "TRX",
+        "SOL",
+        "ETC",
+        "LTC",
+        "DOT",
+        "BCH",
+        "AVAX",
+        "UNI",
+        "ATOM",
+        "FTT",
+        "LINK",
+        "NEAR",
+        "XMR",
+        "DOGE",
+        "XLM",
+        "ALGO",
+        "EOS",
+        "APE",
+        "MANA",
+        "SAND",
+        "XTZ",
+        "FIL",
+        "ICP",
+        "VET",
+        "FLOW",
+        "CHZ",
+        "HBAR",
+        "AAVE",
+        "AXS",
+        "THEA",
+        "QNT",
+        "ZEC",
+        "MIOTA",
+        "KLAY",
+        "NEO",
+        "FTM",
+        "CRV",
+        "NEXO",
+        "ENJ",
+        "DASH",
+        "ZIL",
+        "STX",
+        "DCR",
+        "KAVA",
+        "MINA",
+        "1INCH",
+        "KSM",
+        "BTG",
+        "CELO",
+        "HOT",
+        "GALA",
+        "CVX",
+        "YFI",
+        "BAL",
+        "ROSE",
+        "KDA",
+        "TFUEL",
+        "FLUX",
+        "IOST",
+        "JUST",
+        "SC",
+        "UMA",
+        "GLMR",
+        "SLP",
+        "LSK",
+        "COMP",
+        "WAVES",
+        "JASMY",
+        "ALPINE",
+        "BTCST",
+        "ALICE",
+        "CAKE",
+        "NEO",
+        "CITY",
+        "BURGER",
+        "LEVER",
+        "ANKR",
+        "OG",
+        "BOND",
+        "SUSHI",
+        "NEXO",
+        "ACM",
+        "JUV",
+        "ALPACA",
+        "OGN",
+        "DCR",
+        "WING",
+        "KNC",
+        "JUV",
+        "COTI",
+        "HIVE",
+        "WAXP",
+        "FIRO",
+        "NMR",
+        "COCOS",
+        "CTSI",
+        "MTL",
+        "SCRT",
+        "DEGO",
+        "ACA",
+        "FIO",
+        "CTXC",
+        "WTC",
+        "FIDA",
+        "PUNDIX",
+        "EPX",
+        "BICO",
+        "ELV",
+        "AMP",
+        "AVA",
+        "TRU",
+        "TKO",
+        "STX",
+        "XNO",
+        "SUN",
+        "AGLD",
+        "ALPHA",
+        "ICX",
+        "MDX",
+        "DF",
+        "CFX",
+        "SUPER",
+        "COS",
+        "POWR",
+        "FRONT",
+        "ASTR",
+        "KMD",
+        "MULTI",
+        "STEEM",
+        "TROY",
+        "PERL",
+        "AKRO",
+        "MBL",
+        "ALCX",
+        "QUICK",
+        "DATA",
+        "MC",
+        "DNT",
+        "REP",
+        "DIA",
+        "BIFI",
+        "ONG",
+        "BTG",
+        "BTS",
+        "ARDR",
+        "EUR",
+        "PORTO",
+        "LAZIO",
+        "TUSD",
+        "SNX",
+        "CRV",
+        "SANTOS",
+        "ENS",
+        "MIR",
+        "BAL",
+        "SPELL",
+        "KNC",
+        "DAR",
+        "IMX",
+        "ONE",
+        "BLZ",
+        "GTO",
+        "C98",
+        "ACM",
+        "CVP",
+        "ATA",
+        "XEM",
+        "TRIBE",
+        "AUCTION",
+        "QI",
+        "DENT",
+        "LUNA",
+        "ELF",
+        "WRX",
+    ];
+
     const auth = useSelector((state) => state.auth);
     const signal = useSelector((state) => state.signal);
     const dispatch = useDispatch();
+    const [search, setSearch] = useState("");
     const [pairAvailable, setPairAvailable] = useState(null);
     const [signalAvailable, setSignalAvailable] = useState(null);
     let centrifuge = useRef(null);
@@ -104,14 +288,21 @@ const Dashboard = (props) => {
 
         axios(config)
             .then(function (response) {
-                let data = response.data.market_pairs;
-                data.forEach((element) => {
-                    element.symbol = `${element.base_currency}${element.quote_currency}`;
-                    element.currency_id = element.base_currency;
-                    element.quote_id = element.quote_currency;
-                    element.price = 0;
-                    element.price_chg = 0;
+                let tmp_data = response.data.market_pairs;
+                let data = [];
+                sort_coint.forEach((el) => {
+                    tmp_data
+                        .filter((key) => key.base_currency === el)
+                        .forEach((element) => {
+                            element.symbol = `${element.base_currency}${element.quote_currency}`;
+                            element.currency_id = element.base_currency;
+                            element.quote_id = element.quote_currency;
+                            element.price = 0;
+                            element.price_chg = 0;
+                            data.push(element);
+                        });
                 });
+
                 dispatch(pairSuccess(data));
                 setPairAvailable(true);
             })
@@ -367,49 +558,64 @@ const Dashboard = (props) => {
                 <div className="col-lg-3 col-sm-4">
                     <ul className="list-group">
                         <div className="list-group-header">List Coin</div>
-                        {pair.data.map((coin, index) => (
-                            <button
-                                key={index}
-                                onClick={() => {
-                                    setPairSelectedAsset({
-                                        base_asset: coin.currency_id,
-                                        quote_asset: coin.quote_id,
-                                    });
-                                    pairSelected.base_asset = coin.currency_id;
-                                    pairSelected.quote_asset = coin.quote_id;
-                                    setPriceBuy(coin.price);
-                                }}
-                                className="list-group-item"
-                            >
-                                <div className="coin-group coin-start">
-                                    <i className="bx bx-star"></i>
-                                    <div className="coin-info">
-                                        <h1 className="m-0 coin-title">
-                                            {coin.currency_id} /{" "}
-                                            <small>{coin.quote_id}</small>
+                        <input
+                            type="text"
+                            onChange={(e) => setSearch(e.target.value)}
+                            placeholder="Search..."
+                            className="form-control form-control-first"
+                        />
+                        {pair.data
+                            .filter(
+                                (item) =>
+                                    item.currency_id
+                                        .toLowerCase()
+                                        .indexOf(search) >= 0
+                            )
+                            .map((coin, index) => (
+                                <button
+                                    key={index}
+                                    onClick={() => {
+                                        setPairSelectedAsset({
+                                            base_asset: coin.currency_id,
+                                            quote_asset: coin.quote_id,
+                                        });
+                                        pairSelected.base_asset =
+                                            coin.currency_id;
+                                        pairSelected.quote_asset =
+                                            coin.quote_id;
+                                        setPriceBuy(coin.price);
+                                    }}
+                                    className="list-group-item"
+                                >
+                                    <div className="coin-group coin-start">
+                                        <i className="bx bx-star"></i>
+                                        <div className="coin-info">
+                                            <h1 className="m-0 coin-title">
+                                                {coin.currency_id} /{" "}
+                                                <small>{coin.quote_id}</small>
+                                            </h1>
+                                            <p className="m-0 coin-sm">
+                                                Price: {coin.price}
+                                            </p>
+                                            <p className="m-0 coin-sm">
+                                                Chg:{" "}
+                                                <span
+                                                    style={
+                                                        coin.price_chg < 0
+                                                            ? { color: "red" }
+                                                            : { color: "green" }
+                                                    }
+                                                >
+                                                    {coin.price_chg}%
+                                                </span>
+                                            </p>
+                                        </div>
+                                        <h1 className="m-0 coin-title ms-auto">
+                                            {coin.currency_id}
                                         </h1>
-                                        <p className="m-0 coin-sm">
-                                            Price: {coin.price}
-                                        </p>
-                                        <p className="m-0 coin-sm">
-                                            Chg:{" "}
-                                            <span
-                                                style={
-                                                    coin.price_chg < 0
-                                                        ? { color: "red" }
-                                                        : { color: "green" }
-                                                }
-                                            >
-                                                {coin.price_chg}%
-                                            </span>
-                                        </p>
                                     </div>
-                                    <h1 className="m-0 coin-title ms-auto">
-                                        {coin.currency_id}
-                                    </h1>
-                                </div>
-                            </button>
-                        ))}
+                                </button>
+                            ))}
                     </ul>
                 </div>
                 <div className="col-lg-9 col-sm-8">
