@@ -90,7 +90,6 @@ const Dashboard = (props) => {
         "BTCST",
         "ALICE",
         "CAKE",
-        "NEO",
         "CITY",
         "BURGER",
         "LEVER",
@@ -98,15 +97,12 @@ const Dashboard = (props) => {
         "OG",
         "BOND",
         "SUSHI",
-        "NEXO",
         "ACM",
         "JUV",
         "ALPACA",
         "OGN",
-        "DCR",
         "WING",
         "KNC",
-        "JUV",
         "COTI",
         "HIVE",
         "WAXP",
@@ -130,7 +126,6 @@ const Dashboard = (props) => {
         "AVA",
         "TRU",
         "TKO",
-        "STX",
         "XNO",
         "SUN",
         "AGLD",
@@ -160,7 +155,6 @@ const Dashboard = (props) => {
         "DIA",
         "BIFI",
         "ONG",
-        "BTG",
         "BTS",
         "ARDR",
         "EUR",
@@ -168,20 +162,16 @@ const Dashboard = (props) => {
         "LAZIO",
         "TUSD",
         "SNX",
-        "CRV",
         "SANTOS",
         "ENS",
         "MIR",
-        "BAL",
         "SPELL",
-        "KNC",
         "DAR",
         "IMX",
         "ONE",
         "BLZ",
         "GTO",
         "C98",
-        "ACM",
         "CVP",
         "ATA",
         "XEM",
@@ -290,6 +280,9 @@ const Dashboard = (props) => {
             .then(function (response) {
                 let tmp_data = response.data.market_pairs;
                 let data = [];
+                let data_not_exist = [];
+
+                console.log("length_data", tmp_data.length);
                 sort_coint.forEach((el) => {
                     tmp_data
                         .filter((key) => key.base_currency === el)
@@ -302,8 +295,21 @@ const Dashboard = (props) => {
                             data.push(element);
                         });
                 });
-
-                dispatch(pairSuccess(data));
+                tmp_data.forEach((element) => {
+                    element.symbol = `${element.base_currency}${element.quote_currency}`;
+                    element.currency_id = element.base_currency;
+                    element.quote_id = element.quote_currency;
+                    element.price = 0;
+                    element.price_chg = 0;
+                    let index = data.findIndex(
+                        (e) => e.symbol === element.symbol
+                    );
+                    if (index < 0) {
+                        data_not_exist.push(element);
+                    }
+                });
+                let data_final = data.concat(data_not_exist);
+                dispatch(pairSuccess(data_final));
                 setPairAvailable(true);
             })
             .catch(function (error) {
@@ -569,7 +575,7 @@ const Dashboard = (props) => {
                                 (item) =>
                                     item.currency_id
                                         .toLowerCase()
-                                        .indexOf(search) >= 0
+                                        .indexOf(search.toLowerCase()) >= 0
                             )
                             .map((coin, index) => (
                                 <button
