@@ -267,7 +267,7 @@ const Dashboard = (props) => {
 
         var config = {
             method: "get",
-            url: "https://apigateway.bidbox.community/site/market-pairs",
+            url: "https://apigatewaytrdr.bidbox.community/site/market-pairs",
             // url: "https://api.bidbox.community/api/v1/master/pair/paginate",
             headers: {
                 // Authorization: axios.defaults.headers.common["Authorization"],
